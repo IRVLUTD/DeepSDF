@@ -45,6 +45,7 @@ out vec3 normal_world;
 out vec4 xyz_world;
 out vec3 viewDirection_cam;
 out vec4 xyz_camera;
+flat out int PrimitiveID;
 
 uniform mat4 V;
 
@@ -61,7 +62,7 @@ void main()
     xyz_world = position_world[0];
     xyz_camera = V * xyz_world;
     viewDirection_cam = viewDirection_camera[0];
-    gl_PrimitiveID = gl_PrimitiveIDIn;
+    PrimitiveID = gl_PrimitiveIDIn;
     EmitVertex();
 
     gl_Position = gl_in[1].gl_Position;
@@ -70,7 +71,7 @@ void main()
     xyz_world = position_world[1];
     xyz_camera = V * xyz_world;
     viewDirection_cam = viewDirection_camera[1];
-    gl_PrimitiveID = gl_PrimitiveIDIn;
+    PrimitiveID = gl_PrimitiveIDIn;
 
     EmitVertex();
 
@@ -80,7 +81,7 @@ void main()
     xyz_world = position_world[2];
     xyz_camera = V * xyz_world;
     viewDirection_cam = viewDirection_camera[2];
-    gl_PrimitiveID = gl_PrimitiveIDIn;
+    PrimitiveID = gl_PrimitiveIDIn;
 
     EmitVertex();
     EndPrimitive();
@@ -94,7 +95,7 @@ in vec3 normal_world;
 in vec3 normal_camera;
 in vec4 xyz_world;
 in vec4 xyz_camera;
-in int gl_PrimitiveID ;
+flat in int PrimitiveID ;
 
 uniform vec2 slant_thr;
 varying vec4 ttt;
@@ -130,10 +131,10 @@ void main(){
         }
 
         FragColor = xyz_world;
-        FragColor.w = gl_PrimitiveID + 1.0f;
+        FragColor.w = PrimitiveID + 1.0f;
 
         FragColor2 = vec4(normalize(normal_world_cor),1);
-        FragColor2.w = gl_PrimitiveID + 1.0f;
+        FragColor2.w = PrimitiveID + 1.0f;
 
     }
 
